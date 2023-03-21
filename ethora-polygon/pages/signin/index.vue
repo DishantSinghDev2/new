@@ -16,7 +16,7 @@
 <script setup>
 import { notify } from "@kyvg/vue3-notification"
 
-function connectToMetamask() {
+async function connectToMetamask() {
   if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
   } else {
