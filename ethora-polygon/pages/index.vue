@@ -1,5 +1,8 @@
 <template>
-	<div>
+	<div class="grow">
+		<Head>
+      <Title>Ethora</Title>
+    </Head>
 		Index
 	</div>
 </template>
