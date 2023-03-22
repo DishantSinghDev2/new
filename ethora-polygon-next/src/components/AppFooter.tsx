@@ -1,5 +1,5 @@
 export default function AppFooter() {
   return (
-    <div className="flex bg-green-700">AppFooter</div>
+    <div className="flex shadow items-center justify-center h-[64px] px-[24px] bg-[#1976D2]">@AppFooter</div>
   )
 } 

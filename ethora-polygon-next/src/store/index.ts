@@ -1,4 +1,4 @@
-import create from 'zustand'
+import {create} from 'zustand'
 import { CartSlice, createCartSlice } from './slices/createCartSlice'
 import { createProductSlice, ProductSlice } from './slices/createProductSlice'
 import { createUserSlice, UserSlice } from './slices/userSlice'

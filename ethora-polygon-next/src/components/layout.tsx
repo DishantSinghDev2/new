@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col">
       <AppHeader></AppHeader>
-      <main className="flex grow border">{children}</main>
+      <main className="flex grow">{children}</main>
       <AppFooter />
     </div>
   );
