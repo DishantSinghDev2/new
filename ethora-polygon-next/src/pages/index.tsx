@@ -31,7 +31,6 @@ export default function Home() {
 
   if (provider) {
     console.log(provider.provider.selectedAddress)
-
   }
 
   return (

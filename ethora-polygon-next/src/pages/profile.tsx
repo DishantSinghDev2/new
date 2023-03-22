@@ -5,3 +5,5 @@ export default function Profile() {
     </div>
   )
 }
+
+Profile.requireAuth = true

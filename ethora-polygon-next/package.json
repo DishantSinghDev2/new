@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.6.5",
+    "@headlessui/react": "^1.7.13",
     "@metamask/detect-provider": "^2.0.0",
     "@metamask/providers": "^10.2.1",
     "@types/node": "18.15.5",

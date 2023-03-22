@@ -11,7 +11,9 @@ export interface UserSlice {
 }
 
 export const createUserSlice: StateCreator<UserSlice> = (set) => ({
-  user: null,
+  user: {
+    firstName: ''
+  },
   setUser: (user: User) => {
     set({user})
   },
