@@ -10,7 +10,7 @@ const providerOptions = {
 }
 
 export default function Home() {
-  // const useAppStore()
+  const {setAddress} = useAppStore()
 
   const [provider, setProvider] = useContext(Web3ProviderContext);
 
@@ -22,15 +22,12 @@ export default function Home() {
       })
 
       const web3ModalInstance = await web3Modal.connect()
+      setAddress(web3ModalInstance.selectedAddress)
       const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance)
       setProvider(web3ModalProvider)
     } catch(error) {
       console.error(error)
     }
-  }
-
-  if (provider) {
-    console.log(provider.provider.selectedAddress)
   }
 
   return (
