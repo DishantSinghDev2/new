@@ -1,10 +1,32 @@
 import {useState} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+
+type IUserData = {
+    firstName: string,
+    lastName: string
+};
 
 export default function Profile() {
-    const [userData, setUserData] = useState({
-        firstName: 'Test',
-        lastName: 'User'
-    });
+
+    const {register, handleSubmit, watch, formState: {errors}} = useForm<IUserData>();
+    const onSubmit: SubmitHandler<IUserData> = (data) => {
+        console.log(data);
+    }
+
+    const [userData, setUserData] = useState<IUserData>({firstName: 'Test', lastName: 'User'});
+
+    const [firstName, setFirstName] = useState<string>('Test');
+    const [lastName, setLastName] = useState<string>('User');
+
+    const saveUserData = () => {
+        const currentData: IUserData = {
+            firstName: firstName,
+            lastName: lastName
+        }
+
+        setUserData(currentData);
+        setShowModal(false);
+    }
 
     const [showModal, setShowModal] = useState(false);
 
@@ -54,11 +76,16 @@ export default function Profile() {
                             <div className="px-6 py-6 lg:px-8">
                                 <h3 className="mb-4 text-md text-center font-medium text-gray-900 dark:text-white">Edit
                                     your personal data</h3>
-                                <form className="space-y-6" action="#">
+
+                                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                                             Name</label>
-                                        <input type="text" name="firstName" id="firstName" defaultValue={userData.firstName}
+                                        {!firstName &&
+                                            <span className="text-red-500 -mt-6">This field is required</span>}
+                                        <input type="text" name="firstName" id="firstName"
+                                               value={firstName}
+                                               onChange={(e) => setFirstName(e.target.value)}
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                placeholder="First Name" required/>
                                     </div>
@@ -66,11 +93,15 @@ export default function Profile() {
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
                                             Name</label>
-                                        <input type="text" name="lastName" id="lastName" defaultValue={userData.lastName}
+                                        {!lastName &&
+                                            <span className="text-red-500 -mt-6">This field is required</span>}
+                                        <input type="text" name="lastName" id="lastName"
+                                               value={lastName}
+                                               onChange={(e) => setLastName(e.target.value)}
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                placeholder="Last Name" required/>
                                     </div>
-                                    <button type="submit"
+                                    <button disabled={!firstName || !lastName} onClick={saveUserData}
                                             className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save
                                     </button>
                                 </form>
