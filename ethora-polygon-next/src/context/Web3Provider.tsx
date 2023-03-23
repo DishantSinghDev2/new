@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { ethers } from "ethers";
+import Web3Modal from 'web3modal'
+
 import { config } from "@/constants/config";
 import { useAppStore } from "@/store";
 
@@ -7,7 +9,6 @@ import { useAppStore } from "@/store";
 export const Web3ProviderContext = createContext(null);
 
 const Web3Provider = (props) => {
-  // this state will be shared with all components
   const [provider, setProvider] = useState<ethers.providers.Web3Provider>();
 
   const { app, setError } = useAppStore();
@@ -39,8 +40,29 @@ const Web3Provider = (props) => {
     }
   }, [provider]);
 
+  async function connectWallet() {
+    try {
+      let web3Modal = new Web3Modal({
+        cacheProvider: false,
+        providerOptions: {},
+      });
+
+      const web3ModalInstance = await web3Modal.connect();
+
+      const web3ModalProvider = new ethers.providers.Web3Provider(
+        web3ModalInstance
+      );
+      return {
+        web3ModalInstance,
+        web3ModalProvider
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
-    <Web3ProviderContext.Provider value={[provider, setProvider]}>
+    <Web3ProviderContext.Provider value={{provider, setProvider, connectWallet}}>
       {props.children}
     </Web3ProviderContext.Provider>
   );
