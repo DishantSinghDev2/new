@@ -58,7 +58,7 @@ export default function Profile() {
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                                             Name</label>
-                                        <input type="text" name="firstName" id="firstName" value={userData.firstName}
+                                        <input type="text" name="firstName" id="firstName" defaultValue={userData.firstName}
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                placeholder="First Name" required/>
                                     </div>
@@ -66,7 +66,7 @@ export default function Profile() {
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
                                             Name</label>
-                                        <input type="text" name="lastName" id="lastName" value={userData.lastName}
+                                        <input type="text" name="lastName" id="lastName" defaultValue={userData.lastName}
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                placeholder="Last Name" required/>
                                     </div>
