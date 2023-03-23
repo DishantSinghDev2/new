@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Web3ProviderContext } from '@/context/Web3Provider'
 import { config } from '@/constants/config'
 import EthoraCoinAbi from '@/constants/ABI/EthoraCoin.json'
+import AllScreenLoader from "@/components/AllScreenLoader";
 
 type Inputs = {
   coinsAmout: number,
@@ -47,6 +48,12 @@ export default function Claim() {
       }
       setStartActionClaim(false)
     } catch (error) {
+      if (error.reason) {
+        if (error.reason === "execution reverted: hadClaimed[msg.sender] == false && maxClaim > 0") {
+          alert('Only five coins can be obtained for free, you have already received coins. Now you can get coins by buying them.')
+        }
+      }
+
       setStartActionClaim(false)
     }
   }
@@ -65,6 +72,7 @@ export default function Claim() {
           <button disabled={true} className="rounded-md disabled:bg-gray-400  bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Purchase</button>
         </form>
       </div>
+      {startActionClaim && <AllScreenLoader />}
     </div>
   )
 }

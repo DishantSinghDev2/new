@@ -57,7 +57,7 @@ const Web3Provider = (props) => {
         web3ModalProvider
       }
     } catch (error) {
-      console.error(error);
+      console.error('context ', error);
     }
   }
 
