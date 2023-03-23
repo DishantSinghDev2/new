@@ -21,6 +21,26 @@ export default function Claim() {
 
   const [startActionClaim, setStartActionClaim] = useState(false)
 
+  async function addCoinToMetamask(web3ModalInstance) {
+    const wasAdded = await web3ModalInstance.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20', // Initially only supports ERC20, but eventually more!
+        options: {
+          address: config.ethoraCoinAddress, // The address that the token is at.
+          symbol: config.ethoraCoinSymbol, // A ticker symbol or shorthand, up to 5 chars.
+          decimals: config.ethoraCoinDecimals, // The number of decimals in the token
+        },
+      },
+    });
+
+    if (wasAdded) {
+      alert('Now you can use Ethora Coin inside Metamaks');
+    } else {
+      console.log('Нou will be able to add coins manually');
+    }
+  }
+
   async function onClaim() {
     setStartActionClaim(true)
     try {
@@ -41,6 +61,7 @@ export default function Claim() {
   
       if (transactionReceipt.status == 1) {
         alert('success!')
+        await addCoinToMetamask(web3ModalInstance)
       }
     
       if (transactionReceipt.status !== 1) {

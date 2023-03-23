@@ -3,5 +3,8 @@ export const config = {
   'networkId': process.env.NETWORK_ID || '8001',
   'networkIdHex': process.env.NETWORK_ID_HEX || '0x13881',
   'networkName': process.env.NETWORK_NANE || 'Mumbai Testnet',
+  tokenAddress: '0xd00981105e61274c8a5cd5a88fe7e037d935b513',
+  ethoraCoinSymbol: 'ETC',
+  ethoraCoinDecimals: 18,
   ttl: 86400
 }
