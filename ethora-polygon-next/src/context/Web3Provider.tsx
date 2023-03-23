@@ -27,7 +27,7 @@ const Web3Provider = (props) => {
     }
 
     if (provider) {
-      console.log(provider.selectedAddress)
+      // console.log(provider.selectedAddress)
       window.ethereum.on("accountsChanged", onAccountChange)
       window.ethereum.on('chainChanged', onChainChanged)
     }

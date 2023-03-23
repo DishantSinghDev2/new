@@ -6,5 +6,6 @@ export const config = {
   tokenAddress: '0xd00981105e61274c8a5cd5a88fe7e037d935b513',
   ethoraCoinSymbol: 'ETC',
   ethoraCoinDecimals: 18,
+  ethoraCoinCoefficient: 100,
   ttl: 86400
 }
