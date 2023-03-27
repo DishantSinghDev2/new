@@ -5,7 +5,7 @@ import AppFooter from "./AppFooter";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <AppHeader></AppHeader>
       <main className="flex grow">{children}</main>
       <AppFooter />

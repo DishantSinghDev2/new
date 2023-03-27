@@ -9,7 +9,10 @@ export default function Home({data}) {
   }, [])
 
   return (
-    <div className="w-screen flex px-[24px] py-[24px]">
+    <div className="w-screen grid grid-cols-3 gap-4 px-[24px] py-[24px]">
+      {data.map(((contract, index) => {
+        return <NfmtContractItem data={contract} key={contract.contractAddress}></NfmtContractItem>
+      }))}
       {data.map(((contract, index) => {
         return <NfmtContractItem data={contract} key={contract.contractAddress}></NfmtContractItem>
       }))}

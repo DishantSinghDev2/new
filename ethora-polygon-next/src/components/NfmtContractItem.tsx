@@ -11,10 +11,24 @@ interface IContractItemProps {
 }
 
 export default function NfmtContractItem(props: IContractItemProps) {
+  function showCostWithTokenId(costs: string[]) {
+    return costs.map((el, index) => {
+      return `tokenId ${index + 1} - ${el} wei`
+    }).join(',')
+  }
+
   return (
-    <div>
-      <div>Nfmt Contract Item</div>
-      <div>{props.data.name}</div>
+    <div className="border p-10">
+      <div className={`w-full h-[200px] overflow-hidden`}>
+        <img src={props.data.urls[0]} alt="" />
+      </div>
+      <div>
+        Token Name: {props.data.name}
+      </div>
+      <div>
+        Token Symbol: {props.data.symbol}
+      </div>
+      <div>Costs: {showCostWithTokenId(props.data.costs)}</div>
     </div>
   )
 }
