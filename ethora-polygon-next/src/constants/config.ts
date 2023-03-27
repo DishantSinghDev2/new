@@ -1,5 +1,4 @@
 export const config = {
-  mongoDbUri: process.env.MONGODB_URI || "mongodb://localhost:27017/ethora",
   'ethoraCoinAddress': process.env.ETHORA_COIN_ADDRESS || '0x8Dc520c198F617750D29a2AA33126A14358A893E',
   'networkId': process.env.NETWORK_ID || '8001',
   'networkIdHex': process.env.NETWORK_ID_HEX || '0x13881',
@@ -8,5 +7,6 @@ export const config = {
   ethoraCoinSymbol: 'ETC',
   ethoraCoinDecimals: 18,
   ethoraCoinCoefficient: 100,
-  ttl: 86400
+  ttl: 86400,
+  apiUrl: process.env.API_URL || 'https://polygon-dev-server.ethora.com'
 }
