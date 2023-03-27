@@ -33,6 +33,7 @@ export default function AppHeader() {
         </Link>
         <Link className="mr-2 hover:underline" href="/profile">Profile</Link>
         <Link className="mr-2 hover:underline" href="/claim">Claim</Link>
+        <Link className="mr-2 hover:underline" href="/nft">Deploy NFT</Link>
         <Link className="hover:underline" href="/transfers">Transfers</Link>
       </div>
 
