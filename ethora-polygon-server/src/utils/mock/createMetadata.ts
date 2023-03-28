@@ -10,5 +10,5 @@ async function createMetadata(data: any) {
   //   costs: ["0", "1000000000"],
   //   maxSupplies: ["100", "50"]
   // }
-  const metadata = data.
+  const metadata = data
 }
