@@ -8,7 +8,8 @@ export interface INfmt {
   costs: string[];
   images: string[];
   splitPercents: string[],
-  maxSupplies: string[]
+  maxSupplies: string[],
+  beneficiaries: string[],
 }
 
 export interface INfmtDocument extends INfmt, Document {
@@ -27,7 +28,8 @@ const nfmtSchema = new Schema<INfmtDocument>(
     costs: [String],
     splitPercents: [String],
     maxSupplies: [String],
-    images: [String]
+    images: [String],
+    beneficiaries: [String]
   },
   {
     timestamps: true,

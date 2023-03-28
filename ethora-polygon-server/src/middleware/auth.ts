@@ -27,6 +27,7 @@ export function authMw(req: any, res: Response, next: NextFunction) {
   const parsed = tokenParser(authHeader)
 
   if (parsed) {
+    console.log(parsed)
     const { ttl, sign, address } = parsed
 
     if (!sign || ttl < Date.now()) {
@@ -51,7 +52,7 @@ export function authMw(req: any, res: Response, next: NextFunction) {
       },
     };
     try {
-      const recoveredAddress = sigUtil.recoverTypedSignature({ data: msgParams as any, signature: '0x' + sign as string, version: SignTypedDataVersion.V4 } )
+      const recoveredAddress = sigUtil.recoverTypedSignature({ data: msgParams as any, signature: sign as string, version: SignTypedDataVersion.V4 } )
 
       if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
         req.user = {
@@ -60,9 +61,11 @@ export function authMw(req: any, res: Response, next: NextFunction) {
         next()
       }
     } catch (error) {
+      console.log(error)
       return return401(res)
     }
   } else {
+    console.log('no parsed')
     return return401(res)
   }
 }
