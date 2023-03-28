@@ -20,7 +20,7 @@ mongooseConnect().then(async () => {
   app.use(router)
   app.use(errorMiddleware)
 
-  // await mock()
+  await mock()
   
   app.listen(appPort, () => console.log('listening on ', appPort))
 })
