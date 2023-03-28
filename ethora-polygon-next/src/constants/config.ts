@@ -7,6 +7,6 @@ export const config = {
   ethoraCoinSymbol: 'ETC',
   ethoraCoinDecimals: 18,
   ethoraCoinCoefficient: 100,
-  ttl: 86400,
+  ttl: 8640000,
   apiUrl: process.env.API_URL || 'https://polygon-dev-server.ethora.com'
 }

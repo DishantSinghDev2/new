@@ -9,12 +9,10 @@ import { AuthGuard } from "@/components/AuthGuard";
 export default function App({ Component, pageProps }: AppProps) {
 
   return (
-    <Layout>
-      <Web3Provider>
-        <AuthGuard>
-          <Component {...pageProps} />
-        </AuthGuard>
-      </Web3Provider>
-    </Layout>
+    <Web3Provider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Web3Provider>
   );
 }
