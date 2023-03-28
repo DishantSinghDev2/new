@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import {ethers} from 'ethers'
 
 import { Web3ProviderContext } from "@/context/Web3Provider";
+import AllScreenLoader from "./AllScreenLoader";
 
 import { config } from '@/constants/config'
 import NfmtEthoraAbi from '@/constants/ABI/EthoraNfmt.json'
@@ -14,6 +15,7 @@ interface IContractItemProps {
     owner: string
     urls: string[],
     costs: string[],
+    images: string[],
     maxSupplies: string[]
   }
 }
@@ -53,11 +55,13 @@ export default function NfmtContractItem(props: IContractItemProps) {
       const transaction = await ethoraCoin.mint(index + 1, 1, web3ModalInstance.selectedAddress);
       const transactionReceipt = await transaction.wait();
 
-      console.log(transactionReceipt)
+      alert("Success")
 
     } catch (error) {
       console.log('error ', error)
+
     }
+    setStartFreeMint(false)
   }
 
   useEffect(() => {
@@ -74,7 +78,7 @@ export default function NfmtContractItem(props: IContractItemProps) {
   return (
     <div className="border p-10">
       <div className={`w-full h-[200px] overflow-hidden`}>
-        <img src={props.data.urls[0]} alt="" />
+        <img src={props.data.images[0]} alt="" />
       </div>
       <div>
         Token Name: {props.data.name}
@@ -90,6 +94,7 @@ export default function NfmtContractItem(props: IContractItemProps) {
           </div>
         )
       }
+      {(startFreeMint) && <AllScreenLoader />}
     </div>
   )
 }

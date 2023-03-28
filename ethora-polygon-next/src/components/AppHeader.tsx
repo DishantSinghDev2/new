@@ -31,10 +31,10 @@ export default function AppHeader() {
         <Link className="mr-5" rel="stylesheet" href="/">
           <img className="w-[60px]" src={logoImg.src} alt="ethora logotype"></img>
         </Link>
-        <Link className="mr-2 hover:underline" href="/profile">Profile</Link>
+        {/* <Link className="mr-2 hover:underline" href="/profile">Profile</Link> */}
         <Link className="mr-2 hover:underline" href="/claim">Claim</Link>
-        <Link className="mr-2 hover:underline" href="/nft">Deploy NFT</Link>
-        <Link className="hover:underline" href="/transfers">Transfers</Link>
+        {/* <Link className="mr-2 hover:underline" href="/nft">Deploy NFT</Link>
+        <Link className="hover:underline" href="/transfers">Transfers</Link> */}
       </div>
 
       <div className={"flex gap-4"}>

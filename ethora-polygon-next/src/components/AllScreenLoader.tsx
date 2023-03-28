@@ -2,7 +2,7 @@ export default function AllScreenLoader() {
   return (
     <div
       role="status"
-      className="absolute bg-gray-300/20 trasp w-screen h-full flex items-center justify-center"
+      className="fixed top-0 left-0 bottom-0 right-0 bg-gray-300/20 trasp w-screen h-full flex items-center justify-center"
     >
       <svg
         aria-hidden="true"
