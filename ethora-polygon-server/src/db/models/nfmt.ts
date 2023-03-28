@@ -6,6 +6,7 @@ export interface INfmt {
   contractAddress: string;
   urls: string[];
   costs: string[];
+  images: string[];
   splitPercents: string[],
   maxSupplies: string[]
 }
@@ -25,7 +26,8 @@ const nfmtSchema = new Schema<INfmtDocument>(
     urls: [String],
     costs: [String],
     splitPercents: [String],
-    maxSupplies: [String]
+    maxSupplies: [String],
+    images: [String]
   },
   {
     timestamps: true,

@@ -7,7 +7,7 @@ import router from './router'
 import errorMiddleware from './middleware/error'
 
 import mongooseConnect from './db/dbConnect'
-import mock from './utils/mock'
+import mock from './utils/mock/mock'
 
 mongooseConnect().then(async () => {
   console.log('mongoose connected')
@@ -20,7 +20,7 @@ mongooseConnect().then(async () => {
   app.use(router)
   app.use(errorMiddleware)
 
-  await mock()
+  // await mock()
   
   app.listen(appPort, () => console.log('listening on ', appPort))
 })

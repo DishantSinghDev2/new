@@ -1,4 +1,4 @@
-import Nfmt from '../db/models/nfmt'
+import Nfmt from '../../db/models/nfmt'
 import nfmtContractsMock from './nfmtContract'
 
 const main = async () => {
