@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import morgan from 'morgan'
 
 import config from './config'
 import router from './router'
@@ -17,6 +18,7 @@ mongooseConnect().then(async () => {
   app.use(cors())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({extended: true}))
+  app.use(morgan('tiny'))
   app.use(router)
   app.use(errorMiddleware)
 
