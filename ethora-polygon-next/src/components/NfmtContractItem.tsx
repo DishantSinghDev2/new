@@ -6,6 +6,7 @@ import AllScreenLoader from "./AllScreenLoader";
 
 import { config } from '@/constants/config'
 import NfmtEthoraAbi from '@/constants/ABI/EthoraNfmt.json'
+import useSwal from "@/hooks/useSwal";
 
 interface IContractItemProps {
   data: {
@@ -21,8 +22,9 @@ interface IContractItemProps {
 }
 
 export default function NfmtContractItem(props: IContractItemProps) {
+  const swal = useSwal()
   const [startFreeMint, setStartFreeMint] = useState(false)
-  const { connectWallet } = useContext(Web3ProviderContext)
+  const { connectWallet, isMetamaskInstalled } = useContext(Web3ProviderContext)
 
   const [freeIndex, setFreeIndex] = useState<number>(-1)
 
@@ -33,7 +35,13 @@ export default function NfmtContractItem(props: IContractItemProps) {
   }
 
   async function mintForFree(index: number) {
-    console.log('mint for free ', index)
+    const isMetamask = await isMetamaskInstalled()
+
+    if (!isMetamask) {
+      swal.fire('Install Metamask first')
+      return
+    }
+
     setStartFreeMint(true)
     try {
       const { web3ModalInstance, web3ModalProvider } = await connectWallet();

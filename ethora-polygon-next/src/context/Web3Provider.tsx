@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
-import { ethers } from "ethers";
+import { ethers } from "ethers"
 import Web3Modal from 'web3modal'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 import { config } from "@/constants/config";
 import { useAppStore } from "@/store";
@@ -61,8 +62,16 @@ const Web3Provider = (props) => {
     }
   }
 
+  function isMetamaskInstalled() {
+    if (window.ethereum && window.ethereum.provider && window.ethereum.provider.isMetamask) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   return (
-    <Web3ProviderContext.Provider value={{provider, setProvider, connectWallet}}>
+    <Web3ProviderContext.Provider value={{provider, setProvider, connectWallet, isMetamaskInstalled}}>
       {props.children}
     </Web3ProviderContext.Provider>
   );
