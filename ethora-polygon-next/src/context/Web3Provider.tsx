@@ -62,8 +62,8 @@ const Web3Provider = (props) => {
     }
   }
 
-  function isMetamaskInstalled() {
-    if (window.ethereum && window.ethereum.provider && window.ethereum.provider.isMetamask) {
+  async function isMetamaskInstalled() {
+    if (window.ethereum && window.ethereum.isMetaMask) {
       return true
     } else {
       return false
