@@ -6,6 +6,7 @@ import { Web3ProviderContext } from "@/context/Web3Provider";
 import { config } from "@/constants/config";
 import EthoraCoinAbi from "@/constants/ABI/EthoraCoin.json";
 import AllScreenLoader from "@/components/AllScreenLoader";
+import useSwal from "@/hooks/useSwal";
 
 type Inputs = {
   coinsAmout: number;
@@ -26,6 +27,11 @@ export default function Claim() {
   useEffect(() => {}, [coinsAmount]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (!isMetamaskInstalled()) {
+      swal.fire("Install Metamask first")
+      return
+    }
+    
     const coinsValueEth = ethers.utils.parseUnits(
       data.coinsAmout.toString(),
       "ether"
@@ -74,7 +80,8 @@ export default function Claim() {
     setStartMint(false);
   };
 
-  const { connectWallet } = useContext(Web3ProviderContext);
+  const { connectWallet, isMetamaskInstalled } = useContext(Web3ProviderContext);
+  const swal = useSwal()
 
   const [startActionClaim, setStartActionClaim] = useState(false);
   const [startMint, setStartMint] = useState(false);
@@ -100,6 +107,11 @@ export default function Claim() {
   }
 
   async function onClaim() {
+    if (!isMetamaskInstalled()) {
+      swal.fire("Install Metamask first")
+      return
+    }
+
     setStartActionClaim(true);
     try {
       const { web3ModalInstance, web3ModalProvider } = await connectWallet();
