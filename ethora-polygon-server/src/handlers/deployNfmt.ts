@@ -42,7 +42,6 @@ export async function deployNfmtHandler(req: any, res: Response) {
   let imagesIpfsLinks: string[] = [];
 
   for (const file of req.files) {
-    console.log(file);
     const rs = fs.createReadStream(path.resolve(file.path));
     let ipfsUploadResult;
 

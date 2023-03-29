@@ -27,7 +27,6 @@ export function authMw(req: any, res: Response, next: NextFunction) {
   const parsed = tokenParser(authHeader)
 
   if (parsed) {
-    console.log(parsed)
     const { ttl, sign, address } = parsed
 
     if (!sign || ttl < Date.now()) {
@@ -61,11 +60,9 @@ export function authMw(req: any, res: Response, next: NextFunction) {
         next()
       }
     } catch (error) {
-      console.log(error)
       return return401(res)
     }
   } else {
-    console.log('no parsed')
     return return401(res)
   }
 }
