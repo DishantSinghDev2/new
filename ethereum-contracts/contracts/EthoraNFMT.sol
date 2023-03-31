@@ -17,7 +17,6 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract EthoraNFMT is ERC1155, Pausable, ERC1155Supply, ReentrancyGuard, ERC1155Burnable {
     string public name;
-    string public symbol;
     string[] public urls;
 
     uint public maxId;
@@ -67,7 +66,6 @@ contract EthoraNFMT is ERC1155, Pausable, ERC1155Supply, ReentrancyGuard, ERC115
     constructor(
         address owner_,
         string memory name_,
-        string memory symbol_,
         string[] memory urls_,
         address[] memory beneficiaries_,
         uint[] memory splitPercents_,
@@ -85,7 +83,6 @@ contract EthoraNFMT is ERC1155, Pausable, ERC1155Supply, ReentrancyGuard, ERC115
         maxId = maxSupplies_.length;
         costs = costs_;
         name = name_;
-        symbol = symbol_;
     }
 
     function pause() public onlyOwner {

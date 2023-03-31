@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { useRouter } from 'next/router'
 import {
   PhotoIcon,
   XMarkIcon,
@@ -15,18 +16,24 @@ import { v4 as uuidv4 } from "uuid";
 import { ImagePick } from "@/components/ImagePick";
 import { Earning } from "@/components/Earning";
 import { Web3ProviderContext } from "@/context/Web3Provider";
-import {config} from "@/constants/config"
-import NfmtEthoraAbi from '@/constants/ABI/EthoraNfmt.json'
+import { config } from "@/constants/config";
+import NfmtEthoraAbi from "@/constants/ABI/EthoraNfmt.json";
+import { httpClient } from "@/http";
+import { useAppStore } from "@/store";
+import AllScreenLoader from "../components/AllScreenLoader";
 
 type FilesMap = Record<number, File | null>;
 
 export default function DeployCollection() {
-  const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
+  const { accessToken } = useAppStore();
+  const [loading, setLoading] = useState<boolean>(false);
   const [collectionName, setCollectionName] = useState<string>("");
   const [collectionDescription, setCollectionDescription] =
     useState<string>("");
 
-  const { connectWallet, isMetamaskInstalled } = useContext(Web3ProviderContext)
+  const { connectWallet, isMetamaskInstalled } =
+    useContext(Web3ProviderContext);
 
   const [bens, setBens] = useState<Record<string, string>>({
     [uuidv4()]: "0x",
@@ -99,46 +106,64 @@ export default function DeployCollection() {
     // }
   }
 
-  async function onCreate() {
-    const beneficiaries = Object.keys(bens).map((key) => bens[key]);
-    const percs = Object.keys(percents).map((key) => percents[key]);
+  async function metadataPost() {
+    const fd = new FormData();
 
-    const isFiles = checkFiles();
-
-    if (!isFiles) {
-      await swal.fire(
-        "Cancelled",
-        "Please choose images for all your tokens",
-        "error"
-      );
-      return;
-    }
-
-    const maxSupplies = totals;
-    const _costs = costs;
-
-    console.log({
-      collectionName,
-      collectionDescription,
-      beneficiaries,
-      percs,
-      maxSupplies,
-      _costs,
+    Object.keys(files).forEach((key) => {
+      fd.append("images", files[key]);
     });
 
-    const isMetamask = await isMetamaskInstalled()
+    fd.append("collectionName", collectionName);
+    fd.append("collectionDescription", collectionDescription);
 
-    if (!isMetamask) {
-      swal.fire('Install Metamask first')
-      return
-    }
+    let res = await httpClient.post("/pre-deploy-nfmt", fd, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
 
-    setLoading(true)
+    return res;
+  }
 
+  async function onCreate() {
     try {
+      const beneficiaries = Object.keys(bens).map((key) => bens[key]);
+      const percs = Object.keys(percents).map((key) => percents[key]);
+  
+      const isFiles = checkFiles();
+  
+      if (!isFiles) {
+        await swal.fire(
+          "Cancelled",
+          "Please choose images for all your tokens",
+          "error"
+        );
+        return;
+      }
+  
+      const isMetamask = await isMetamaskInstalled();
+  
+      if (!isMetamask) {
+        swal.fire("Install Metamask first");
+        return;
+      }
+  
+      const maxSupplies = totals;
+      const _costs = costs;
+  
+      if (Object.keys(files).length !== maxSupplies.length && maxSupplies.length !== _costs.length) {
+        await swal.fire("Please fill all the required filds")
+        return
+      }
+  
+      setLoading(true);
+  
+      let res = await metadataPost();
+      let metadataUrls = res.data.metadataUrls;
+
       const { web3ModalInstance, web3ModalProvider } = await connectWallet();
 
-      console.log(web3ModalInstance.selectedAddress)
+      console.log(web3ModalInstance.selectedAddress);
 
       if (web3ModalInstance.chainId !== config.networkIdHex) {
         alert("Please change your network to " + config.networkName);
@@ -146,39 +171,39 @@ export default function DeployCollection() {
       }
 
       const signer = web3ModalProvider.getSigner();
-      const myContract = new ethers.ContractFactory(NfmtEthoraAbi.abi, NfmtEthoraAbi.bytecode, signer);
+      const myContract = new ethers.ContractFactory(
+        NfmtEthoraAbi.abi,
+        NfmtEthoraAbi.bytecode,
+        signer
+      );
 
       const contract = await myContract.deploy(
         web3ModalInstance.selectedAddress,
         collectionName,
-        'abc',
-        ['https://abc'],
-        ['0xe72Daf18bBd662615377736554C685c58EA51EAa'],
-        ['1000'],
-        ['100'],
-        ['0']
-      )
+        metadataUrls,
+        beneficiaries,
+        percs,
+        totals,
+        costs
+      );
 
-      alert("Success")
+      let nextRes = await httpClient.post(`/after-deploy-nfmt/${res.data._id}`, {
+        contractAddress: contract.address,
+        splitPercents: percs,
+        costs,
+        maxSupplies: totals
+      }, {
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+
+      router.push('/')
     } catch (error) {
-      console.log('error ', error)
-
+      console.log("error ", error);
     }
-    // setStartFreeMint(false)
 
-    // if (!collectionName) {
-    //   await swal.fire("Cancelled", "Collection Name is required", "error");
-    //   return;
-    // }
-
-    // if (!checkBeneficiaries()) {
-    //   await swal.fire(
-    //     "Cancelled",
-    //     "Beneficiaries should be valid eth address",
-    //     "error"
-    //   );
-    //   return;
-    // }
+    setLoading(false)
   }
 
   return (
@@ -291,6 +316,7 @@ export default function DeployCollection() {
           </button>
         </div>
       </div>
+      { loading && <AllScreenLoader></AllScreenLoader>}
     </div>
   );
 }

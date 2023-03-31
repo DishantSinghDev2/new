@@ -91,9 +91,6 @@ export default function NfmtContractItem(props: IContractItemProps) {
       <div>
         Token Name: {props.data.name}
       </div>
-      <div>
-        Token Symbol: {props.data.symbol}
-      </div>
       <div>Costs: {showCostWithTokenId(props.data.costs)}</div>
       {
         (freeIndex > -1) && (

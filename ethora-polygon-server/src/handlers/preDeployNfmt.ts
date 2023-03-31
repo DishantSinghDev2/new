@@ -4,7 +4,7 @@ import path from "path";
 import { Response } from "express";
 import { pinata } from "../services/pinata";
 import Joi from "joi";
-import Web3 from "web3";
+import Nfmt from "../db/models/nfmt";
 
 import config from "../config";
 
@@ -22,7 +22,7 @@ import config from "../config";
 
 const bodySchema = Joi.object({
   collectionName: Joi.string().required(),
-  collectionDescription: Joi.string().required(),
+  collectionDescription: Joi.string().required()
 }).required();
 
 export async function preDeployNfmtHandler(req: any, res: Response) {
@@ -87,8 +87,17 @@ export async function preDeployNfmtHandler(req: any, res: Response) {
       metadataUrls.push(ipfsUrl);
     }
 
-    return res.send({ ok: true, imagesIpfsLinks, metadataUrls });
+    const dbRecord = await Nfmt.create({
+      creator: req.user.address,
+      urls: metadataUrls,
+      images: imagesIpfsLinks,
+      description: collectionDescription,
+      name: collectionName
+    })
+
+    return res.send({ ok: true, imagesIpfsLinks, metadataUrls, _id: dbRecord._id });
   } catch (error) {
+    console.log(error)
     return res.status(500).send(error)
   }
 }

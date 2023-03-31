@@ -71,9 +71,12 @@ export default function AppHeader() {
         <Link className="mr-2 border rounded-md p-2 hover:underline" href="/claim">
           Claim
         </Link>
-        <Link className="mr-2 border rounded-md p-2 hover:underline" href="/deploy-collection">
-          Create New Collection
-        </Link>
+        { accessToken && (
+          <Link className="mr-2 border rounded-md p-2 hover:underline" href="/deploy-collection">
+            Create New Collection
+          </Link>
+        )}
+
         {/* <Link className="mr-2 hover:underline" href="/nft">Deploy NFT</Link>
         <Link className="hover:underline" href="/transfers">Transfers</Link> */}
       </div>
@@ -92,9 +95,6 @@ export default function AppHeader() {
         ) }
         { address && (
           <div>
-            <Link className="mr-2 hover:underline" href="/deploy-nfmt">
-              Deploy New NFMT
-            </Link>
             <button onClick={signOut}>Sign Out</button>
           </div>
         ) }

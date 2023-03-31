@@ -8,5 +8,5 @@ export const config = {
   ethoraCoinDecimals: 18,
   ethoraCoinCoefficient: 100,
   ttl: 8640000,
-  apiUrl: process.env.API_URL || 'https://polygon-dev-server.ethora.com'
+  apiUrl: 'http://localhost:3333' || 'https://polygon-dev-server.ethora.com'
 }
