@@ -4,7 +4,7 @@ import multer from 'multer'
 import Nfmt from '../db/models/nfmt'
 import {authMw, AuthRequest} from '../middleware/auth'
 
-import { deployNfmtHandler } from '../handlers/deployNfmt'
+import { preDeployNfmtHandler } from '../handlers/preDeployNfmt'
 import { getProfileHandler } from '../handlers/getProfileHandler'
 import { updateProfile } from '../handlers/updateProfile'
 
@@ -21,7 +21,7 @@ router.get('/nfmt', async (req, res) => {
   return res.send(nfmt)
 })
 
-router.post('/nfmt', upload.array('images', 5),  deployNfmtHandler)
+router.post('/pre-deploy-nfmt', upload.array('images', 5),  preDeployNfmtHandler)
 
 router.get('/profile/:address', getProfileHandler)
 router.post('/profile', authMw, upload.single('image'), updateProfile)

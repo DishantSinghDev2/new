@@ -8,19 +8,24 @@ import Web3 from "web3";
 
 import config from "../config";
 
+// const bodySchema = Joi.object({
+//   costs: Joi.array().items(Joi.number().integer().min(1)),
+//   maxSupplies: Joi.array().items(Joi.number().integer().min(1)),
+//   beneficiaries: Joi.array().items(Joi.custom((value, helpers) => {
+//     if (!Web3.utils.isAddress(value)) {
+//       return helpers.error('any.invalid')
+//     } else {
+//       return true
+//     }
+//   })).required()
+// }).required();
+
 const bodySchema = Joi.object({
-  costs: Joi.array().items(Joi.number().integer().min(1)),
-  maxSupplies: Joi.array().items(Joi.number().integer().min(1)),
-  beneficiaries: Joi.array().items(Joi.custom((value, helpers) => {
-    if (!Web3.utils.isAddress(value)) {
-      return helpers.error('any.invalid')
-    } else {
-      return true
-    }
-  })).required()
+  collectionName: Joi.string().required(),
+  collectionDescription: Joi.string().required(),
 }).required();
 
-export async function deployNfmtHandler(req: any, res: Response) {
+export async function preDeployNfmtHandler(req: any, res: Response) {
   // validations start
   const error = bodySchema.validate(req.body).error;
 
@@ -38,6 +43,8 @@ export async function deployNfmtHandler(req: any, res: Response) {
     }
   }
   // validations end
+
+  const { collectionName, collectionDescription } = req.body
 
   let imagesIpfsLinks: string[] = [];
 
@@ -58,5 +65,20 @@ export async function deployNfmtHandler(req: any, res: Response) {
     imagesIpfsLinks.push(ipfsUrl);
   }
 
-  return res.send({ ok: true, imagesIpfsLinks });
+  let metadataUrls: string[] = []
+
+  for (const [index, imageLink] of imagesIpfsLinks.entries()) {
+    const metadata = {
+      name: `${collectionName} #${index + 1}`,
+      image: imageLink,
+      description: collectionDescription
+    }
+
+    const res = await pinata.pinJSONToIPFS(metadata, {pinataMetadata: { name:  `${collectionName} #${index + 1} ${Date.now()}`},})
+    const hash = res?.IpfsHash;
+    const ipfsUrl = config.pinataGateway + hash;
+    metadataUrls.push(ipfsUrl);
+  }
+
+  return res.send({ ok: true, imagesIpfsLinks, metadataUrls });
 }
