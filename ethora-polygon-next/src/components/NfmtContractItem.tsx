@@ -56,7 +56,7 @@ export default function NfmtContractItem(props: IContractItemProps) {
       const signer = web3ModalProvider.getSigner();
       const ethoraCoin = new ethers.Contract(
         props.data.contractAddress,
-        NfmtEthoraAbi,
+        NfmtEthoraAbi.abi,
         signer
       );
 

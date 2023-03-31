@@ -89,6 +89,9 @@ export default function AppHeader() {
         ) }
         { address && (
           <div>
+            <Link className="mr-2 hover:underline" href="/deploy-nfmt">
+              Deploy New NFMT
+            </Link>
             <button onClick={signOut}>Sign Out</button>
           </div>
         ) }
