@@ -68,8 +68,11 @@ export default function AppHeader() {
           ></img>
         </Link>
         {/* <Link className="mr-2 hover:underline" href="/profile">Profile</Link> */}
-        <Link className="mr-2 hover:underline" href="/claim">
+        <Link className="mr-2 border rounded-md p-2 hover:underline" href="/claim">
           Claim
+        </Link>
+        <Link className="mr-2 border rounded-md p-2 hover:underline" href="/deploy-collection">
+          Create New Collection
         </Link>
         {/* <Link className="mr-2 hover:underline" href="/nft">Deploy NFT</Link>
         <Link className="hover:underline" href="/transfers">Transfers</Link> */}
