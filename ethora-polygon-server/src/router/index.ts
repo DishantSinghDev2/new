@@ -29,6 +29,11 @@ router.post(
   preDeployNfmtHandler
 )
 
+router.post('/upload', upload.array('images', 5), (req, res) => {
+  console.log('/upload start')
+  return res.send({files: req.files})
+})
+
 router.post('/after-deploy-nfmt/:id', authMw, afterDeployHandler)
 
 router.get('/profile/:address', getProfileHandler)
