@@ -29,7 +29,7 @@ router.post(
   preDeployNfmtHandler
 )
 
-router.post('/upload', upload.array('images', 5), (req, res) => {
+router.post('/upload', authMw, upload.array('images', 5), (req, res) => {
   console.log('/upload start')
   return res.send({files: req.files})
 })

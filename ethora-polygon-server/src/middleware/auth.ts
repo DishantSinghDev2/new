@@ -58,6 +58,8 @@ export function authMw(req: any, res: Response, next: NextFunction) {
           address
         }
         next()
+      } else {
+        return return401(res)
       }
     } catch (error) {
       return return401(res)
