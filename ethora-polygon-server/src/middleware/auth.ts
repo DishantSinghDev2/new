@@ -59,9 +59,12 @@ export function authMw(req: any, res: Response, next: NextFunction) {
         }
         next()
       } else {
+        console.log("recoveredAddress.toLowerCase() === address.toLowerCase()")
         return return401(res)
       }
     } catch (error) {
+      console.log('catch (error)')
+      console.log(error)
       return return401(res)
     }
   } else {
