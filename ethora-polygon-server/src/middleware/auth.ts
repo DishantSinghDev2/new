@@ -51,6 +51,7 @@ export function authMw(req: any, res: Response, next: NextFunction) {
       },
     };
     try {
+      console.log(JSON.stringify(msgParams))
       const recoveredAddress = sigUtil.recoverTypedSignature({ data: msgParams as any, signature: sign as string, version: SignTypedDataVersion.V4 } )
 
       if (recoveredAddress.toLowerCase() === address.toLowerCase()) {

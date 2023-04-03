@@ -38,6 +38,8 @@ export default function AppHeader() {
 
     const { web3ModalInstance } = await connectWallet();
 
+    console.log({msgParams: JSON.stringify(msgParams)})
+
     const sign = await window.ethereum.request({
       method: 'eth_signTypedData_v4',
       params: [web3ModalInstance.selectedAddress, JSON.stringify(msgParams)],
