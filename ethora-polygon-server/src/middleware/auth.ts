@@ -60,6 +60,8 @@ export function authMw(req: any, res: Response, next: NextFunction) {
         next()
       } else {
         console.log("recoveredAddress.toLowerCase() === address.toLowerCase()")
+        console.log(recoveredAddress.toLowerCase())
+        console.log(address.toLowerCase())
         return return401(res)
       }
     } catch (error) {
