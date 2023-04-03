@@ -40,7 +40,7 @@ router.post('/after-deploy-nfmt/:id', authMw, afterDeployHandler)
 router.get('/profile/:address', getProfileHandler)
 router.post('/profile', authMw, upload.single('image'), updateProfile)
 
-router.get('/auth-data', authMw, (req: any, res) => {
+router.get('/auth-data', (req: any, res) => {
   const ttl = Date.now() + 8640000
   const msgParams = {
     domain: {
