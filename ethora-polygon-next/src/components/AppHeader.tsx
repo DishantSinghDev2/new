@@ -6,6 +6,7 @@ import { config } from "@/constants/config";
 import { format } from 'date-fns'
 import { useAppStore } from "@/store";
 import useSwal from "@/hooks/useSwal";
+import { httpClient } from "@/http";
 
 export default function AppHeader() {
   const { connectWallet, isMetamaskInstalled } = useContext(Web3ProviderContext);
@@ -17,24 +18,10 @@ export default function AppHeader() {
       swal.fire("Install Metamask first!")
       return
     }
-    const ttl = Date.now() + config.ttl
-    const msgParams = {
-      domain: {
-        name: "EthoraPolygonDev",
-        version: "1",
-      },
-      message: {
-        message: `Ethora Polygon Dev Sign In\n\nToken valid till: ${format(new Date(ttl), 'yyyy-MM-dd HH:mm aa')}`,
-      },
-      primaryType: "Login",
-      types: {
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-        ],
-        Login: [{ name: "message", type: "string" }],
-      },
-    };
+
+    const resp = await httpClient.get('/auth-data')
+
+    const {msgParams, ttl} = resp.data
 
     const { web3ModalInstance } = await connectWallet();
 
