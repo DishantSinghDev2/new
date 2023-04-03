@@ -18,7 +18,7 @@ router.get('/hello', (req, res) => {
 })
 
 router.get('/nfmt', async (req, res) => {
-  const nfmt = await Nfmt.find({}).sort({createdAt: -1})
+  const nfmt = await Nfmt.find({contractAddress: {$exists: true}}).sort({createdAt: -1})
 
   return res.send(nfmt)
 })
