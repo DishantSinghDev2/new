@@ -13,9 +13,6 @@ export default function Home({data}) {
       {data.map(((contract, index) => {
         return <NfmtContractItem data={contract} key={contract.contractAddress}></NfmtContractItem>
       }))}
-      {data.map(((contract, index) => {
-        return <NfmtContractItem data={contract} key={contract.contractAddress}></NfmtContractItem>
-      }))}
     </div>
   )
 }
